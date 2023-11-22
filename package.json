@@ -14,7 +14,7 @@
     "compile": "tsc --pretty --declaration",
     "build": "rimraf dist && npm run compile",
     "lint": "eslint --fix src/**/*.ts",
-    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'tests/**/*.ts'",
+    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha --bail --exit -r ts-node/register 'tests/**/*.ts'",
     "gendoc": "typedoc --out docs ./src"
   },
   "files": [
@@ -41,8 +41,7 @@
     "ts-loader": "9.5.1",
     "ts-node": "10.9.1",
     "typedoc": "0.25.3",
-    "typescript": "5.2.2",
-    "xmlhttprequest": "1.8.0"
+    "typescript": "5.2.2"
   },
   "license": "MIT"
 }
