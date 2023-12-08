@@ -112,7 +112,7 @@ export class RequestErrorHandler {
         if (data) {
             try {
                 const parsedData = JSON.parse(data);
-                errorCode = parsedData.code || "";
+                errorCode = parsedData.code || parsedData.error_code || "";
             } catch (err) {
                 errorCode = "";
             }
