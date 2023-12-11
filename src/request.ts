@@ -379,7 +379,7 @@ export class Request<Return_Type = any, Error_Handler = never> {
                     return;
                 }
 
-                if (response.headers.get("content-type").includes("application/json")) {
+                if ((response.headers.get("content-type") + "").startsWith("application/json")) {
                     response
                         .json()
                         .then((data) => {
@@ -481,7 +481,7 @@ export class Request<Return_Type = any, Error_Handler = never> {
 
                 let data: any = request.responseText;
 
-                if (request.getResponseHeader("content-type").includes("application/json")) {
+                if ((request.getResponseHeader("content-type") + "").startsWith("application/json")) {
                     try {
                         data = JSON.parse(data);
                     } catch (ex) {
