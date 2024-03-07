@@ -370,7 +370,7 @@ export class Request<Return_Type = any, Error_Handler = never> {
                                 callback && callback();
                             }
 
-                            if (err.name === "AbortError") {
+                            if (this.aborted) {
                                 this._onCancel && this._onCancel();
                             } else {
                                 this._onUnexpectedError && this._onUnexpectedError(err);
@@ -394,7 +394,7 @@ export class Request<Return_Type = any, Error_Handler = never> {
                                 callback && callback();
                             }
 
-                            if (err.name === "AbortError") {
+                            if (this.aborted) {
                                 this._onCancel && this._onCancel();
                             } else {
                                 this._onUnexpectedError && this._onUnexpectedError(err);
@@ -415,7 +415,7 @@ export class Request<Return_Type = any, Error_Handler = never> {
                                 callback && callback();
                             }
 
-                            if (err.name === "AbortError") {
+                            if (this.aborted) {
                                 this._onCancel && this._onCancel();
                             } else {
                                 this._onUnexpectedError && this._onUnexpectedError(err);
@@ -423,11 +423,11 @@ export class Request<Return_Type = any, Error_Handler = never> {
                         });
                 }
             })
-            .catch((err) => {
+            .catch(() => {
                 if (!this.aborted) {
                     callback && callback();
                 }
-                if (err.name === "AbortError") {
+                if (this.aborted) {
                     this._onCancel && this._onCancel();
                 } else {
                     this._onRequestError &&
