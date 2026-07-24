@@ -101,6 +101,11 @@ export interface RequestParams<_Return_Type = any, Error_Handler = never> {
     headers?: RequestHeaders;
 
     /**
+     * Credentials sending option
+     */
+    credentials?: RequestCredentials;
+
+    /**
      * Function to handle request errors
      */
     handleError?: (err: RequestError, handler: Error_Handler) => void;
@@ -171,6 +176,11 @@ export class Request<Return_Type = any, Error_Handler = never> {
     public readonly headers?: RequestHeaders;
 
     /**
+     * Request credentials options
+     */
+    public readonly credentials?: RequestCredentials;
+
+    /**
      * Function to handle request errors
      */
     public readonly handleError: (err: RequestError, handler: Error_Handler) => void;
@@ -230,6 +240,7 @@ export class Request<Return_Type = any, Error_Handler = never> {
         this.json = params.json;
         this.form = params.form;
         this.headers = params.headers;
+        this.credentials = params.credentials;
         this.handleError = params.handleError || function () { };
     }
 
@@ -347,6 +358,7 @@ export class Request<Return_Type = any, Error_Handler = never> {
             signal: this.abortController.signal,
             headers,
             body: this.json ? JSON.stringify(this.json) : undefined,
+            credentials: this.credentials,
         })
             .then((response) => {
                 if (response.status !== 200) {
@@ -448,6 +460,8 @@ export class Request<Return_Type = any, Error_Handler = never> {
      */
     private sendAsMultipartFormData(callback?: () => void) {
         const request = new XMLHttpRequest();
+
+        request.withCredentials = this.credentials === "include";
 
         request.onabort = () => {
             this._onCancel && this._onCancel();
