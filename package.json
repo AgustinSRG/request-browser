@@ -43,5 +43,9 @@
     "typedoc": "0.25.3",
     "typescript": "5.2.2"
   },
+  "overrides": {
+    "diff": "9.0.0",
+    "serialize-javascript": "7.0.5"
+  },
   "license": "MIT"
 }
