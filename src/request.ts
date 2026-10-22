@@ -475,8 +475,17 @@ export class Request<Return_Type = any, Error_Handler = never> {
             this._onUploadProgress && this._onUploadProgress(evt.loaded || 0, evt.total || 0);
         };
 
+        // On network errors, XMLHttpRequest may fire both onreadystatechange (status 0) and onerror.
+        // This flag ensures the request is only handled once.
+        let finished = false;
+
         request.onreadystatechange = () => {
             if (request.readyState === XMLHttpRequest.DONE) {
+                if (finished) {
+                    return;
+                }
+                finished = true;
+
                 if (!this.aborted) {
                     callback && callback();
                 }
@@ -509,6 +518,11 @@ export class Request<Return_Type = any, Error_Handler = never> {
         };
 
         request.onerror = () => {
+            if (finished) {
+                return;
+            }
+            finished = true;
+
             if (!this.aborted) {
                 callback && callback();
             }
